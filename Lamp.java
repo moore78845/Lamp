@@ -7,48 +7,83 @@ import java.awt.Color;
  */
 public class Lamp
 {
-
+    //bulb measurements 
     private double lampX;
     private double lampY;
-    
     private int bulbSize;
     
     private Color colour1;
+    
+    //stem measurements 
+    private double bulbMiddle; // is the middle of the buld where the stem will be.
+    private double stemEnd;
+    private double stemStart;
+    private double stemWidth = 10;
+    
+    //stem click box 
+    private double x1;
+    private double x2;
+    
+    
 
     /**
      * Constructor for objects of class Lamp
      */
     public Lamp(double x, double y, int width, Color col)
     {
+     //lamp measurements    
      lampX = x;
      lampY = y;
-     bulbSize = width;
+     bulbSize = width; 
 
      colour1 = col;
      
-     UI.initialise();
+     //stem measurements 
+     bulbMiddle = x + width/2;
+     stemStart = y + width;
+     stemEnd = y + 3 * width;
+     
+     //stem click box
+     x1 = x + width/2 - 5; //bulb middle - half of width 
+     x2 = x + width/2 +5; //bulb middle + half of width 
+     
+     
+     
+    UI.initialise();
     UI.setMouseListener(this::doMouse);
      
     }
     
+    /**
+     * draws the light bulb with a colour.
+    */
     public void draw(){
         UI.setColor(colour1);
         UI.fillOval(lampX, lampY, bulbSize, bulbSize);
+        
+        UI.setColor(Color.black);
+        UI.setLineWidth(stemWidth);
+        UI.drawLine(bulbMiddle, stemStart, bulbMiddle, stemEnd);
+        
+        
     }
     
     private void doMouse(String action, double x, double y){
     if (action.equals("clicked")){
-    if(x>lampX && x < lampX + bulbSize &&  y > lampY && y<lampY+bulbSize){
+        
+    if (x>x1 && x<x2 && y > stemStart && y<stemEnd){
+    System.out.println("works!");}
+        
+    else if(x>lampX && x < lampX + bulbSize &&  y > lampY && y<lampY+bulbSize){
         this.changeColour();
     }}}
     
+    /**
+     * changes colour of the light bulb.
+    */
     private void changeColour(){
         colour1 = new Color ((float)Math.random(), (float)Math.random(),(float)Math.random());
         this.draw();
     }
-    public static void main(String [] args){
     
-    Lamp lamp1 = new Lamp(50, 50, 50, Color.red);
-    lamp1.draw();
-}
 }
