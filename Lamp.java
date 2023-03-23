@@ -24,6 +24,9 @@ public class Lamp
     private double x1;
     private double x2;
     
+    //on or off for the light
+    private boolean onOrOff;
+    
     
 
     /**
@@ -46,6 +49,8 @@ public class Lamp
      //stem click box
      x1 = x + width/2 - 5; //bulb middle - half of width 
      x2 = x + width/2 +5; //bulb middle + half of width 
+     
+     onOrOff = true;
      
      
      
@@ -72,18 +77,32 @@ public class Lamp
     if (action.equals("clicked")){
         
     if (x>x1 && x<x2 && y > stemStart && y<stemEnd){
-    System.out.println("works!");}
-        
-    else if(x>lampX && x < lampX + bulbSize &&  y > lampY && y<lampY+bulbSize){
+    Color oldColour = colour1;
+    this.onOff();}
+    
+    if(x>lampX && x < lampX + bulbSize &&  y > lampY && y<lampY+bulbSize){
         this.changeColour();
     }}}
+    
+    private void onOff(){
+        if(onOrOff == true ){
+        onOrOff = false;        
+        colour1 = Color.black;
+        this.draw();
+    }
+    else if (onOrOff == false){
+        onOrOff = true;
+        
+    }
+    }
     
     /**
      * changes colour of the light bulb.
     */
     private void changeColour(){
+        if (onOrOff == true){
         colour1 = new Color ((float)Math.random(), (float)Math.random(),(float)Math.random());
-        this.draw();
+        this.draw();}
     }
     
 }
